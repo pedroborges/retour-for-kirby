@@ -33,7 +33,7 @@ $retour->redirects()->write([
 
 $log = [];
 
-for ($i=0; $i < 1000; $i++) {
+for ($i=0; $i < 200; $i++) {
     $path     = Str::random(6) . '/' . Str::random(6);
     $referrer = mt_rand(0, 1) ? 'https://' . Str::random(6) : null;
     $id       = $path . '$' . $referrer;
@@ -58,7 +58,7 @@ $stats = [
 
 $stati = ['redirect', 'fail', 'fail', 'fail'];
 
-for ($i=0; $i < 550000; $i++) {
+for ($i=0; $i < 1000; $i++) {
     $by   = array_keys($stats)[array_rand(array_keys($stats))];
     $type = $stati[array_rand($stati)] . 's';
     $time = mt_rand(strtotime('2018-07-01'), strtotime('2019-02-01'));
