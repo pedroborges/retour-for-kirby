@@ -32,8 +32,14 @@ class Redirects extends Store
         return array_map(function($redirect) {
             return [
                 'pattern' => $redirect['from'],
-                'action'  => function () use ($redirect) {
-                    go($redirect['to'], (int)$redirect['status']);
+                'action'  => function (...$parameters) use ($redirect) {
+                    $to = $redirect['to'];
+
+                    foreach ($parameters as $i => $parameter) {
+                        $to = str_replace('$' . ($i + 1), $parameter, $to);
+                    }
+
+                    go($to, (int)$redirect['status']);
                 }
             ];
         }, $data);
