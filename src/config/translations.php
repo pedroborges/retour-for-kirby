@@ -4,11 +4,12 @@ return [
     'en' => [
         'view.retour'      => 'Retour',
 
-        'retour.dashboard'      => 'Dashboard',
-        'retour.timeline'       => 'Timeline for',
-        'retour.timeline.month' => 'Month',
-        'retour.timeline.week'  => 'Week',
-        'retour.timeline.day'   => 'Day',
+        'retour.dashboard'                => 'Dashboard',
+        'retour.dashboard.stats'          => 'Stats',
+        'retour.dashboard.timeline'       => 'Timeline for',
+        'retour.dashboard.timeline.month' => 'Month',
+        'retour.dashboard.timeline.week'  => 'Week',
+        'retour.dashboard.timeline.day'   => 'Day',
 
 
         'retour.redirects'          => 'Redirects',

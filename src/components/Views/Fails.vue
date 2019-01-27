@@ -96,9 +96,11 @@ export default {
       this.$emit('add', error);
     },
     fetch() {
+      this.$events.$emit('retour-load');
       this.$api.get('retour/fails/' + this.sort).then(response => {
         this.items = response;
         this.page  = 1;
+        this.$events.$emit('retour-loaded');
       });
     },
     paginateItems(pagination) {

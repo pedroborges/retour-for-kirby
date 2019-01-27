@@ -130,11 +130,14 @@ export default {
       });
     },
     fetch() {
-      this.$api.get('retour/redirects').then(response => {
-        this.redirects = response;
-      });
+      this.$events.$emit('retour-load');
       this.$api.site.get().then(response => {
         this.site = response;
+
+        this.$api.get('retour/redirects').then(response => {
+          this.redirects = response;
+          this.$events.$emit('retour-loaded');
+        });
       });
     },
     update(input) {

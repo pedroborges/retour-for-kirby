@@ -1,79 +1,44 @@
 <template>
-  <div>
-    <header class="k-field-header">
-      <label class="k-field-label">
-        {{ $t('retour.timeline') }} {{ headline }}
-      </label>
+  <k-grid gutter="medium">
 
-      <k-button-group>
-        <k-button icon="angle-left"  @click="prev" />
-        <k-button
-          icon="calendar"
-          :current="view === 'month'"
-          @click="show('month')"
-        >
-          {{ $t('retour.timeline.month') }}
-        </k-button>
-        <k-button
-          icon="dashboard"
-          :current="view === 'week'"
-          @click="show('week')"
-        >
-          {{ $t('retour.timeline.week') }}
-        </k-button>
-        <k-button
-          icon="clock"
-          :current="view === 'day'"
-          @click="show('day')"
-        >
-          {{ $t('retour.timeline.day') }}
-        </k-button>
-        <k-button icon="angle-right" :disabled="offset >= 0" @click="next" />
-      </k-button-group>
-    </header>
+    <k-column width="1/4">
+      <share :response="response" />
+    </k-column>
 
-    <div class="k-card k-card-content">
+    <k-column width="3/4">
       <timeline
-        :height="80"
-        :chart-data="timeline"
-        :options="options"
+        :response="response"
+        :view="view"
+        :offset="offset"
+        @show="show"
+        @prev="prev"
+        @next="next"
       />
-    </div>
-  </div>
+    </k-column>
+
+  </k-grid>
 </template>
 
 <script>
 
-import Line from './../Charts/Line.vue';
+import Timeline from './../Charts/Timeline.vue';
+import Share  from './../Charts/Share.vue';
 
 export default {
   components: {
-    timeline: Line
+    timeline: Timeline,
+    share: Share
   },
   data () {
     return {
-      timeline: null,
-      headline: null,
-      view: 'month',
-      offset: 0
+      view:     'month',
+      offset:   0,
+      response: null
     }
   },
   computed: {
-    options() {
-      return {
-        legend: false,
-				tooltips: false,
-				scales: {
-					yAxes: [{
-            stacked: true,
-						display: true,
-						ticks: {
-              min: 0,
-              suggestedMax: 5
-						}
-					}]
-				}
-			};
+    api() {
+      return 'retour/stats/' + this.view + '/' + this.offset;
     }
   },
   mounted() {
@@ -81,26 +46,10 @@ export default {
   },
   methods: {
     fetch() {
-      this.headline = '...';
-      this.$api.get('retour/stats/' + this.view + '/' + this.offset).then(response => {
-        this.headline = response.headline;
-        this.timeline = {
-          labels: response.labels,
-          datasets: [
-            {
-              label: this.$t('retour.redirects'),
-              backgroundColor: '#4271ae',
-              data: response.redirects,
-              pointRadius: 0
-            },
-            {
-              label: this.$t('retour.errors'),
-              backgroundColor: '#f5871f',
-              data: response.fails,
-              pointRadius: 0
-            }
-          ],
-        }
+      this.$events.$emit('retour-load');
+      this.$api.get(this.api).then(response => {
+        this.response = response;
+        this.$events.$emit('retour-loaded');
       });
     },
     prev() {
@@ -112,10 +61,10 @@ export default {
       this.fetch();
     },
     show(view) {
-      this.view = view;
+      this.view   = view;
       this.offset = 0;
       this.fetch();
     }
-  },
+  }
 }
 </script>

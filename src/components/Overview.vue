@@ -18,6 +18,9 @@
         </k-button>
       </k-button-group>
 
+      <k-button-group slot="right">
+        <k-icon v-if="loading" type="loader" class="retour-loader" />
+      </k-button-group>
     </k-header>
 
     <template v-for="view in views">
@@ -51,7 +54,8 @@ export default {
     return {
       current: null,
       license: null,
-      options: null
+      options: null,
+      loading: false
     }
   },
   computed: {
@@ -60,11 +64,13 @@ export default {
     }
   },
   created() {
-    this.$api.get('retour/system').then(response => {
-      this.license = response.license;
-      this.options = response.options;
-      this.current = this.options.view;
-    });
+    this.$events.$on('retour-load', this.load);
+    this.$events.$on('retour-loaded', this.loaded);
+    this.fetch();
+  },
+  destroyed() {
+    this.$events.$off('retour-load', this.load);
+    this.$events.$off('retour-loaded', this.loaded);
   },
   methods: {
     add(error) {
@@ -73,9 +79,24 @@ export default {
         this.$refs.redirects.add(error);
       });
     },
+    fetch() {
+      this.$events.$emit('retour-load');
+      this.$api.get('retour/system').then(response => {
+        this.license = response.license;
+        this.options = response.options;
+        this.current = this.options.view;
+        this.$events.$emit('retour-loaded');
+      });
+    },
     go(view) {
       this.current = view;
       this.$events.$emit('retour-go', view);
+    },
+    load() {
+      this.loading = true;
+    },
+    loaded() {
+      this.loading = false;
     }
   }
 }
@@ -94,6 +115,20 @@ export default {
 .k-retour-view {
   [aria-current]:not([aria-current="false"]) {
     color: #4271ae;
+  }
+}
+
+.retour-loader {
+  display: block;
+  padding: 0 .75rem;
+
+  > svg {
+    transform: rotate(-180deg);
+    animation: spin 1.5s linear infinite;
+
+    @keyframes spin {
+      100% { transform: rotate(180deg); }
+    }
   }
 }
 
