@@ -35,7 +35,7 @@ class Log extends Store
     {
         // remove redirect-only logs
         $data = array_filter($this->data(), function ($log) {
-            return $log['fails'] !== 0;
+            return ($log['fails'] ?? 0) !== 0;
         });
 
         // sort accordingly

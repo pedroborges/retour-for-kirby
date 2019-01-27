@@ -1,14 +1,6 @@
 
 # general
 .DS_Store
-.babelrc
-package.json
-package-lock.json
 
 # packages
 /node_modules
-
-# non-release
-/src/assets
-/src/components
-/src/main.js

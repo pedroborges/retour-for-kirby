@@ -1,0 +1,164 @@
+<template>
+
+  <k-structure-field
+    ref="field"
+    name="retour"
+    :columns="columns"
+    :endpoints="endpoints"
+    :fields="fields"
+    :help="$t('retour.redirects.help') + ' ' + $t('retour.recency.help')"
+    :label="$t('retour.redirects')"
+    :sortable="false"
+    :value="values"
+    :limit="10"
+    sortBy="status asc from asc"
+    @input="update"
+  />
+
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      redirects: [],
+      site: {}
+    }
+  },
+  computed: {
+    endpoints() {
+      return {
+        field: "retour",
+        section: null,
+        model: null
+      };
+    },
+    fields() {
+      return {
+        from: {
+          label: this.$t('retour.redirects.from'),
+          type: "text",
+          before: this.site.url + "/",
+          required: true
+        },
+        to: {
+          label: this.$t('retour.redirects.to'),
+          type: "text",
+          required: true,
+          placeholder: "/",
+          help: this.$t('retour.redirects.to.help')
+        },
+        status: {
+          label: this.$t('retour.redirects.status'),
+          type: "select",
+          options: [
+            {
+              text: "-- disabled --",
+              value: "disabled"
+            },
+            {
+              text: "301 - Moved Permanently",
+              value: "301"
+            },
+            {
+              text: "302 - Found",
+              value: "302"
+            },
+            {
+              text: "307 - Temporary Redirect",
+              value: "307"
+            }
+          ],
+          width: "1/3",
+          required: true,
+          empty: false,
+          default: "disabled"
+        },
+        stats: {
+          label: this.$t('retour.redirects.hits'),
+          type: "retour-stats",
+          width: "2/3"
+        }
+      }
+    },
+    columns() {
+      return {
+        from: {
+          label: this.$t('retour.redirects.from'),
+          width: "1/3",
+          type: "url"
+        },
+        to: {
+          label: this.$t('retour.redirects.to'),
+          width: "1/3",
+          type: "url"
+        },
+        status: {
+          label: this.$t('retour.redirects.status'),
+          width: "1/6",
+          type: "retour-status"
+        },
+        stats: {
+          label: this.$t('retour.redirects.hits'),
+          width: "1/6",
+          type: "retour-hits"
+        }
+      }
+    },
+    values() {
+      return this.redirects.map(item => {
+        return Object.assign(item, {
+          stats: {
+            hits: item.hits,
+            last: item.last
+          }
+        });
+      });
+    }
+  },
+  created() {
+    this.fetch();
+  },
+  methods: {
+    add(error) {
+      this.$api.post('retour/redirects', {
+        from  : error.path,
+        to    : null,
+        status: 'disabled'
+      }).then(() => {
+        this.fetch();
+      });
+    },
+    fetch() {
+      this.$api.get('retour/redirects').then(response => {
+        this.redirects = response;
+      });
+      this.$api.site.get().then(response => {
+        this.site = response;
+      });
+    },
+    update(input) {
+      input = input.map(item => {
+        delete(item['stats']);
+        delete(item['id']);
+        return item;
+      });
+      this.$api.patch('retour/redirects', input);
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+
+  .k-retour-view {
+    .k-field-name-from,
+    .k-field-name-to {
+       .k-text-input {
+         padding-left: 2px;
+       }
+     }
+  }
+
+</style>
+
