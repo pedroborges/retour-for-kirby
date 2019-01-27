@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'b7622efc5774cfdf841a43d84a9f552b' => $baseDir . '/src/lib/Store.php',
     'e49ef35fd30fad2e7fca1c0aed0bb318' => $baseDir . '/src/models/Retour.php',
     '7ca171bca901a40cb2512d7ff6e03773' => $baseDir . '/src/models/Log.php',
     '744ca852786c39a156874b7f021f5282' => $baseDir . '/src/models/Redirects.php',

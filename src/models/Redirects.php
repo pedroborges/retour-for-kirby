@@ -4,54 +4,44 @@ namespace distantnative\Retour;
 
 use Kirby\Toolkit\Collection;
 
-class Redirects
+class Redirects extends Store
 {
 
     protected $retour;
-    protected $data;
 
-    public static $field = 'retour';
-
-    public function __construct($retour)
+    public function hit(string $pattern): void
     {
-        $this->retour = $retour;
-        $this->data();
+        $data = $this->data();
+        $key  = array_search($pattern, array_column($data, 'from'));
+        $data[$key]['hits'] = ($data[$key]['hits'] ?? 0) + 1;
+        $data[$key]['last'] = date('Y-m-d H:i');
+        $this->write($data);
     }
 
-    public function hit(string $pattern, string $path)
+    public function read()
     {
-        if ($redirect = $this->data->findBy('from', $pattern)) {
-            $data          = $redirect->toArray();
-            $data['hits']  = ($data['hits'] ?? 0) + 1;
-            $data['last']  = date('Y-m-d H:i');
-
-            $this->data->set($redirect->id(), $data);
-            $this->data($this->data->toArray());
-            $this->retour->errors()->log($path, true);
-        }
-    }
-
-    public function data(array $data = null)
-    {
-        if (is_null($data) === false) {
-            site()->update([static::$field => $data]);
-        }
-
-        return $this->data = site()->{static::$field}()->toStructure();
+        return $this->data = site()->retour()->yaml();
     }
 
     public function routes(): array
     {
-        return $this->data
-                    ->filterBy('status', '!=', 'disabled')
-                    ->toArray(function ($route)  {
-                        return [
-                            'pattern' => $route->from(),
-                            'action'  => function () use ($route) {
-                                go($route->to(), $route->status()->toInt());
-                            }
-                        ];
-                    });
+        $data = array_filter($this->data(), function ($redirect) {
+            return $redirect['status'] !== 'disabled';
+        });
+
+        return array_map(function($redirect) {
+            return [
+                'pattern' => $redirect['from'],
+                'action'  => function () use ($redirect) {
+                    go($redirect['to'], (int)$redirect['status']);
+                }
+            ];
+        }, $data);
+    }
+
+    public function write(array $data = []): void
+    {
+        site()->update(['retour' => $data]);
     }
 
 }

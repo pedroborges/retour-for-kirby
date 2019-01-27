@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit54d40974c607f2f669afee2d4b83433f
 {
     public static $files = array (
+        'b7622efc5774cfdf841a43d84a9f552b' => __DIR__ . '/../..' . '/src/lib/Store.php',
         'e49ef35fd30fad2e7fca1c0aed0bb318' => __DIR__ . '/../..' . '/src/models/Retour.php',
         '7ca171bca901a40cb2512d7ff6e03773' => __DIR__ . '/../..' . '/src/models/Log.php',
         '744ca852786c39a156874b7f021f5282' => __DIR__ . '/../..' . '/src/models/Redirects.php',

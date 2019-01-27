@@ -6,6 +6,7 @@
     "version": "0.1.0",
     "autoload": {
         "files": [
+          "src/lib/Store.php",
           "src/models/Retour.php",
           "src/models/Log.php",
           "src/models/Redirects.php",

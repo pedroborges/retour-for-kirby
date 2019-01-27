@@ -14,14 +14,14 @@ return [
             'pattern' => 'retour/redirects',
             'method'  => 'GET',
             'action'  => function () use ($retour) {
-                return $retour->redirects()->data()->toArray();
+                return $retour->redirects()->data();
             }
         ],
         [
             'pattern' => 'retour/redirects',
             'method'  => 'PATCH',
             'action'  => function () use ($retour) {
-                $retour->redirects()->data($this->requestBody());
+                $retour->redirects()->write($this->requestBody());
                 return true;
             }
         ],
@@ -29,9 +29,9 @@ return [
             'pattern' => 'retour/redirects',
             'method'  => 'POST',
             'action'  => function () use ($retour) {
-                $data   = $retour->redirects()->data()->toArray();
+                $data   = $retour->redirects()->data();
                 $data[] = $this->requestBody();
-                $retour->redirects()->data($data);
+                $retour->redirects()->write($data);
                 return true;
             }
         ],

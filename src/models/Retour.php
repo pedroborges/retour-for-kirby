@@ -10,46 +10,40 @@ class Retour
     protected $stats;
     protected $system;
 
-    protected $cache;
-
-    public function cache() {
-        return kirby()->cache('distantnative.retour');
-    }
-
-    public function log()
+    public function log(): Retour\Log
     {
         if ($this->log) {
             return $this->log;
         }
 
-        return $this->log = new Retour\Log($this);
+        return $this->log = new Retour\Log;
     }
 
-    public function redirects()
+    public function redirects(): Retour\Redirects
     {
         if ($this->redirects) {
             return $this->redirects;
         }
 
-        return $this->redirects = new Retour\Redirects($this);
+        return $this->redirects = new Retour\Redirects;
     }
 
-    public function stats()
+    public function stats(): Retour\Stats
     {
         if ($this->stats) {
             return $this->stats;
         }
 
-        return $this->stats = new Retour\Stats($this);
+        return $this->stats = new Retour\Stats;
     }
 
-    public function system()
+    public function system(): Retour\System
     {
         if ($this->system) {
             return $this->system;
         }
 
-        return $this->system = new Retour\System($this);
+        return $this->system = new Retour\System;
     }
 
 }
