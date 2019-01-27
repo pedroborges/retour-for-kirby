@@ -23,12 +23,15 @@
       </k-button-group>
     </k-header>
 
+    <license v-if="this.options.license && !hasLicense" />
+
     <template v-for="view in views">
       <component
         v-if="current === view"
         :key="view"
         :ref="view"
         :is="view"
+        :site="options.site"
         @add="add"
       />
     </template>
@@ -38,6 +41,8 @@
 
 <script>
 
+import License from './License.vue';
+
 import Dashboard from './Views/Dashboard.vue';
 import Redirects from './Views/Redirects.vue';
 import Fails     from './Views/Fails.vue';
@@ -45,6 +50,7 @@ import Settings  from './Views/Settings.vue';
 
 export default {
   components: {
+    license:   License,
     dashboard: Dashboard,
     redirects: Redirects,
     fails:     Fails,
@@ -53,12 +59,19 @@ export default {
   data() {
     return {
       current: null,
-      license: null,
-      options: null,
+      options: {
+        site: null,
+        license: null,
+        view: null
+      },
       loading: false
     }
   },
   computed: {
+    hasLicense() {
+      return this.options.license.length === 14 &&
+             this.options.license.split('-').length === 3;
+    },
     views() {
       return ['dashboard', 'redirects', 'fails', 'settings'];
     }
@@ -82,8 +95,7 @@ export default {
     fetch() {
       this.$events.$emit('retour-load');
       this.$api.get('retour/system').then(response => {
-        this.license = response.license;
-        this.options = response.options;
+        this.options = response;
         this.current = this.options.view;
         this.$events.$emit('retour-loaded');
       });

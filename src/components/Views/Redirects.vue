@@ -19,10 +19,12 @@
 
 <script>
 export default {
+  props: {
+    site: String
+  },
   data() {
     return {
-      redirects: [],
-      site: {}
+      redirects: []
     }
   },
   computed: {
@@ -38,7 +40,7 @@ export default {
         from: {
           label: this.$t('retour.redirects.from'),
           type: "text",
-          before: this.site.url + "/",
+          before: this.site + "/",
           required: true
         },
         to: {
@@ -131,13 +133,9 @@ export default {
     },
     fetch() {
       this.$events.$emit('retour-load');
-      this.$api.site.get().then(response => {
-        this.site = response;
-
-        this.$api.get('retour/redirects').then(response => {
-          this.redirects = response;
-          this.$events.$emit('retour-loaded');
-        });
+      this.$api.get('retour/redirects').then(response => {
+        this.redirects = response;
+        this.$events.$emit('retour-loaded');
       });
     },
     update(input) {

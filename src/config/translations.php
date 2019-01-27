@@ -3,6 +3,7 @@
 return [
     'en' => [
         'view.retour'      => 'Retour',
+        'retour.license'   => 'You need a license to use Retour for Kirby. Please purchase one and add it to your config.',
 
         'retour.dashboard'                => 'Dashboard',
         'retour.dashboard.stats'          => 'Stats',
