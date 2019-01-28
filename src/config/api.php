@@ -16,8 +16,8 @@ return [
             'action'  => function () use ($retour) {
                 return array_map(function ($item) {
                     $item['stats'] = [
-                        'hits' => $item['hits'],
-                        'last' => $item['last']
+                        'hits' => $item['hits'] ?? 0,
+                        'last' => $item['last'] ?? null
                     ];
                     return $item;
                 }, $retour->redirects()->data());

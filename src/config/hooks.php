@@ -2,7 +2,7 @@
 
 return [
     'route:before' => function ($route, $path) use ($retour) {
-        $pattern   = $route->pattern();
+        $pattern   = $route->name();
         $redirects = $retour->redirects()->data();
 
         if (in_array($pattern, array_column($redirects, 'from')) === true) {
