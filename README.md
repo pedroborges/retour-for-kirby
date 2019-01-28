@@ -7,6 +7,8 @@ Plugin for [Kirby 3](https://getkirby.com) offering redirect management and 404 
 **Still in development - use at own risk**
 
 ## Screenshots
-![Dashboards](docs/dashboard.png)
-![Redirects](docs/redirects.png)
-![Fails](docs/fails.png)
+![Dashboards](docs/dashboard.png)  
+
+![Redirects](docs/redirects.png)  
+
+![Fails](docs/fails.png)  
