@@ -100,7 +100,6 @@ export default {
       });
     },
     go(view) {
-      console.log(111)
       this.current = view;
     },
     load() {

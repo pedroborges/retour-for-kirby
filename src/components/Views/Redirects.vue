@@ -9,7 +9,7 @@
     :help="$t('retour.redirects.help') + ' ' + $t('retour.recency.help')"
     :label="$t('retour.redirects')"
     :sortable="false"
-    :value="redirects"
+    :value="values"
     :limit="10"
     sortBy="status asc from asc"
     @input="update"
@@ -106,6 +106,16 @@ export default {
           type: "retour-hits"
         }
       }
+    },
+    values() {
+      return this.redirects.map(value => {
+        return Object.assign(value, {
+          stats: {
+            hits: value.hits,
+            last: value.last
+          }
+        });
+      });
     }
   },
   created() {
@@ -129,12 +139,13 @@ export default {
       });
     },
     update(input) {
-      input = input.map(item => {
+      this.redirects = input;
+
+      this.$api.patch('retour/redirects', input.map(item => {
         delete(item['stats']);
         delete(item['id']);
         return item;
-      });
-      this.$api.patch('retour/redirects', input);
+      }));
     }
   }
 }

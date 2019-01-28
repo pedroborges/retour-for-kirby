@@ -14,13 +14,7 @@ return [
             'pattern' => 'retour/redirects',
             'method'  => 'GET',
             'action'  => function () use ($retour) {
-                return array_map(function ($item) {
-                    $item['stats'] = [
-                        'hits' => $item['hits'] ?? 0,
-                        'last' => $item['last'] ?? null
-                    ];
-                    return $item;
-                }, $retour->redirects()->data());
+                return $retour->redirects()->data();
             }
         ],
         [
