@@ -33,7 +33,7 @@ $retour->redirects()->write([
 
 $log = [];
 
-for ($i=0; $i < 200; $i++) {
+for ($i=0; $i < 1000; $i++) {
     $path     = Str::random(6) . '/' . Str::random(6);
     $referrer = mt_rand(0, 1) ? 'https://' . Str::random(6) : null;
     $id       = $path . '$' . $referrer;
@@ -42,7 +42,7 @@ for ($i=0; $i < 200; $i++) {
         'referrer'  => $referrer,
         'fails'     => $fails = mt_rand(0, 100) * mt_rand(0, 100),
         'redirects' => (int)($fails/mt_rand(1, 15)),
-        'last'      => date("Y-m-d H:i", mt_rand(strtotime('2018-01-01'), strtotime('2019-02-01')))
+        'last'      => date("Y-m-d H:i", mt_rand(strtotime('2014-01-01'), time()))
     ];
 
 }
@@ -58,10 +58,10 @@ $stats = [
 
 $stati = ['redirect', 'fail', 'fail', 'fail'];
 
-for ($i=0; $i < 1000; $i++) {
+for ($i=0; $i < 20000; $i++) {
     $by   = array_keys($stats)[array_rand(array_keys($stats))];
     $type = $stati[array_rand($stati)] . 's';
-    $time = mt_rand(strtotime('2018-07-01'), strtotime('2019-02-01'));
+    $time = mt_rand(strtotime('2014-01-01'), time());
     $structure = [
         'day'   => ['group' => date('Y-m-d', $time), 'key' => date('Y-m-d H:', $time)],
         'week'  => ['group' => date('Y-W', $time),   'key' => date('Y-m-d', $time)],

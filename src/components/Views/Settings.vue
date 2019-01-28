@@ -38,9 +38,9 @@
 
       <footer class="k-field-footer">
         <div data-theme="help" class="k-text k-field-help">
-          <span v-if="!license">Buy a <a href="https://pay.paddle.com/checkout/550719"><b>plugin license</b></a>.</span>
-          Get a <a href=""><b>Kirby license</b></a>.
-          Download <a href="https://github.com/distantnative/kirby-retour/archive/master.zip"><b>latest version</b></a>.
+          <span v-if="!license">Buy a <a href="https://pay.paddle.com/checkout/550719">plugin license</a>.</span>
+          Get a <a href="">Kirby license</a>.
+          Download <a href="https://github.com/distantnative/kirby-retour/archive/master.zip">latest version</a>.
         </div>
       </footer>
     </section>
@@ -156,7 +156,7 @@ export default {
     },
     flush() {
       this.$events.$emit('retour-load');
-      this.$api.post('retour/flush').then(() => {
+      this.$api.patch('retour/flush').then(() => {
         this.fetch();
       });
     },

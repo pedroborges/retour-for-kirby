@@ -19,30 +19,43 @@ class Stats extends Store
         ];
     }
 
-    public function count(bool $isFail = true): void
+    public function count(array $tmp): void
     {
         $data      = $this->data();
-        $structure = [
-            'day'   => ['group' => date('Y-m-d'), 'key' => date('Y-m-d H:')],
-            'week'  => ['group' => date('Y-W'),   'key' => date('Y-m-d')],
-            'month' => ['group' => date('Y-m'),   'key' => date('Y-m-d')]
-        ];
 
-        $type = $isFail ? 'fails' : 'redirects';
+        foreach ($tmp as $item) {
+            $time = strtotime($item['date']);
+            $structure = [
+                'day'   => [
+                    'group' => date('Y-m-d', $time),
+                    'key'   => date('Y-m-d H:', $time)
+                ],
+                'week'  => [
+                    'group' => date('Y-W', $time),
+                     'key'  => date('Y-m-d', $time)
+                ],
+                'month' => [
+                    'group' => date('Y-m', $time),
+                    'key'   => date('Y-m-d', $time)
+                ]
+            ];
 
-        foreach ($structure as $by => $id) {
-            if (isset($data[$by][$id['group']]) === false) {
-                $data[$by][$id['group']] = [];
+            $type = $item['isFail'] ? 'fails' : 'redirects';
+
+            foreach ($structure as $by => $id) {
+                if (isset($data[$by][$id['group']]) === false) {
+                    $data[$by][$id['group']] = [];
+                }
+
+                if (isset($data[$by][$id['group']][$id['key']]) === false) {
+                    $data[$by][$id['group']][$id['key']] = [
+                        'fails'     => 0,
+                        'redirects' => 0
+                    ];
+                }
+
+                $data[$by][$id['group']][$id['key']][$type]++;
             }
-
-            if (isset($data[$by][$id['group']][$id['key']]) === false) {
-                $data[$by][$id['group']][$id['key']] = [
-                    'fails'     => 0,
-                    'redirects' => 0
-                ];
-            }
-
-            $data[$by][$id['group']][$id['key']][$type]++;
         }
 
         $this->write($data);
@@ -62,7 +75,7 @@ class Stats extends Store
 
             case 'week':
                 $step    = 60 * 60 * 24;
-                $start   = strtotime(date('Y-m-d ', strtotime('last Monday')) . $offset . ' week');
+                $start   = strtotime(date('Y-m-d ', strtotime('Monday this week')) . $offset . ' week');
                 $end     = $start + ($step * 6);
                 $group   = date('Y-W', $start);
                 $key     = 'Y-m-d';

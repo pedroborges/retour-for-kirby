@@ -10,23 +10,26 @@ class Log extends Store
         $this->file = kirby()->root('content') . '/retour.log';
     }
 
-    public function add(string $path, bool $isFail = true): void
+    public function add(array $tmp): void
     {
         $data = $this->data();
-        $id   = $path . '$' . ($_SERVER['HTTP_REFERER'] ?? null);
 
-        if (isset($data[$id]) === false) {
-            $data[$id] = [
-                'path'      => $path,
-                'referrer'  => $_SERVER['HTTP_REFERER'] ?? null,
-                'fails'     => 0,
-                'redirects' => 0,
-                'last'      => null
-            ];
+        foreach ($tmp as $item) {
+            $id   = $item['path'] . '$' . $item['referrer'];
+
+            if (isset($data[$id]) === false) {
+                $data[$id] = [
+                    'path'      => $item['path'],
+                    'referrer'  => $item['referrer'],
+                    'fails'     => 0,
+                    'redirects' => 0,
+                    'last'      => null
+                ];
+            }
+
+            $data[$id][$item['isFail'] ? 'fails' : 'redirects']++;
+            $data[$id]['last'] = $item['date'];
         }
-
-        $data[$id][$isFail ? 'fails' : 'redirects']++;
-        $data[$id]['last'] = date('Y-m-d H:i');
 
         $this->write($data);
     }

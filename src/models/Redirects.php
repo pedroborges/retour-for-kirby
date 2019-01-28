@@ -9,12 +9,16 @@ class Redirects extends Store
 
     protected $retour;
 
-    public function hit(string $pattern): void
+    public function hit(array $tmp): void
     {
         $data = $this->data();
-        $key  = array_search($pattern, array_column($data, 'from'));
-        $data[$key]['hits'] = ($data[$key]['hits'] ?? 0) + 1;
-        $data[$key]['last'] = date('Y-m-d H:i');
+
+        foreach ($tmp as $item) {
+            $key  = array_search($item['pattern'], array_column($data, 'from'));
+            $data[$key]['hits'] = ($data[$key]['hits'] ?? 0) + 1;
+            $data[$key]['last'] = date('Y-m-d H:i');
+        }
+
         $this->write($data);
     }
 

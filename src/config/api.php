@@ -11,6 +11,14 @@ return [
             }
         ],
         [
+            'pattern' => 'retour/load',
+            'method'  => 'GET',
+            'action'  => function () use ($retour) {
+                $retour->load();
+                return true;
+            }
+        ],
+        [
             'pattern' => 'retour/redirects',
             'method'  => 'GET',
             'action'  => function () use ($retour) {
@@ -51,7 +59,7 @@ return [
         ],
         [
             'pattern' => 'retour/flush',
-            'method'  => 'POST',
+            'method'  => 'PATCH',
             'action'  => function () use ($retour) {
                 return $retour->flush();
             }

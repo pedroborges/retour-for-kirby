@@ -96,7 +96,10 @@ export default {
       this.$api.get('retour/system').then(response => {
         this.options = response;
         this.current = this.options.view;
-        this.$events.$emit('retour-loaded');
+
+        this.$api.get('retour/load').then(response => {
+          this.$events.$emit('retour-loaded');
+        });
       });
     },
     go(view) {
