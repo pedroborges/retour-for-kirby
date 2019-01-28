@@ -28971,7 +28971,7 @@ exports.default = {
         _this.$api.get('retour/fails/fails').then(function (response) {
           _this.count(response);
 
-          fetch('https://api.github.com/repos/distantnative/embed/releases/latest', { method: "GET" }).then(function (response) {
+          fetch('https://api.github.com/repos/distantnative/kirby-retour/releases/latest', { method: "GET" }).then(function (response) {
             return response.json();
           }).then(function (response) {
             _this.latest = response.name;

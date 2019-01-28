@@ -155,7 +155,7 @@ export default {
         this.$api.get('retour/fails/fails').then(response => {
           this.count(response);
 
-          fetch('https://api.github.com/repos/distantnative/embed/releases/latest', { method: "GET" }).then(response => response.json()).then(response => {
+          fetch('https://api.github.com/repos/distantnative/kirby-retour/releases/latest', { method: "GET" }).then(response => response.json()).then(response => {
             this.latest = response.name;
             this.$events.$emit('retour-loaded');
           });
