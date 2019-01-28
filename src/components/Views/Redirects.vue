@@ -6,11 +6,10 @@
     :columns="columns"
     :endpoints="endpoints"
     :fields="fields"
-    :help="$t('retour.redirects.help') + ' ' + $t('retour.recency.help')"
     :label="$t('retour.redirects')"
     :sortable="false"
     :value="values"
-    :limit="10"
+    :limit="options.limit"
     sortBy="status asc from asc"
     @input="update"
   />

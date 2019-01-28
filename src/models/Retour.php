@@ -10,6 +10,12 @@ class Retour
     protected $stats;
     protected $system;
 
+    public function flush(): void
+    {
+        $this->log()->write([]);
+        $this->stats()->write([]);
+    }
+
     public function log(): Retour\Log
     {
         if ($this->log) {

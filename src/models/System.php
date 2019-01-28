@@ -13,8 +13,9 @@ class System {
             'description' => $plugin->description(),
             'version'     => $plugin->version(),
             'site'        => $kirby->site()->url(),
-            'view'        => option('distantnative.retour.view', 'dashboard'),
-            'license'     => option('distantnative.retour.license')
+            'license'     => option('distantnative.retour.license'),
+            'view'        => option('distantnative.retour.view'),
+            'limit'       => option('distantnative.retour.limit'),
         ];
     }
 

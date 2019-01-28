@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'view' => 'dashboard',
-    'api'  => true
+    'api'   => true,
+    'view'  => 'dashboard',
+    'limit' => 10
 ];

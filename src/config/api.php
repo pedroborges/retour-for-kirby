@@ -36,6 +36,13 @@ return [
             }
         ],
         [
+            'pattern' => 'retour/fails/(:any)',
+            'method'  => 'GET',
+            'action'  => function ($sort) use ($retour) {
+                return $retour->log()->fails($sort);
+            }
+        ],
+                [
             'pattern' => 'retour/stats/(:any)/(:num?)',
             'method'  => 'GET',
             'action'  => function ($by, $offset = 0) use ($retour) {
@@ -43,10 +50,10 @@ return [
             }
         ],
         [
-            'pattern' => 'retour/fails/(:any)',
-            'method'  => 'GET',
-            'action'  => function ($sort) use ($retour) {
-                return $retour->log()->fails($sort);
+            'pattern' => 'retour/flush',
+            'method'  => 'POST',
+            'action'  => function () use ($retour) {
+                return $retour->flush();
             }
         ],
         [

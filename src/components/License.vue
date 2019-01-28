@@ -24,7 +24,7 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      right: 1rem;
+      right: .75rem;
       padding: .5em 1em;
       color: #fff;
       background: #16171a;

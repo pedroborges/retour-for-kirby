@@ -63,19 +63,21 @@
 
 <script>
 export default {
+  props: {
+    options: Object
+  },
   data() {
     return {
       items: [],
       sort: 'fails',
-      page: 1,
-      limit: 10
+      page: 1
     }
   },
   computed: {
     pagination() {
       return {
         page: this.page,
-        limit: this.limit,
+        limit: this.options.limit,
         total: this.items.length,
         align: "center",
         details: true
@@ -83,9 +85,9 @@ export default {
     },
     paginatedItems() {
       const index = this.page - 1;
-      const offset = index * this.limit;
+      const offset = index * this.options.limit;
 
-      return this.items.slice(offset, offset + this.limit);
+      return this.items.slice(offset, offset + this.options.limit);
     }
   },
   created() {
