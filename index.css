@@ -1,13 +1,26 @@
-/* line 85, stdin */
+/* line 128, stdin */
 .retour-header {
   display: flex; }
-  /* line 88, stdin */
+  /* line 131, stdin */
   .retour-header > .k-icon {
     padding-right: .5em; }
 
-/* line 94, stdin */
+/* line 137, stdin */
 .k-retour-view [aria-current]:not([aria-current="false"]) {
   color: #4271ae; }
+
+/* line 142, stdin */
+.retour-loader {
+  display: block;
+  padding: 0 .75rem; }
+  /* line 146, stdin */
+  .retour-loader > svg {
+    transform: rotate(-180deg);
+    animation: spin 1.5s linear infinite; }
+
+@keyframes spin {
+  100% {
+    transform: rotate(180deg); } }
 /* line 48, stdin */
 .k-retour-hits-field-preview > abbr {
   position: relative;
@@ -27,7 +40,7 @@
   /* line 67, stdin */
   .k-retour-hits-field-preview > abbr .back {
     position: absolute;
-    color: #efefef; }
+    color: rgba(0, 0, 0, 0.1); }
   /* line 72, stdin */
   .k-retour-hits-field-preview > abbr > div {
     margin-left: .5em;
@@ -62,7 +75,37 @@
   /* line 42, stdin */
   .k-retour-status-field-preview .k-icon[data-disabled] {
     color: #c82829; }
-/* line 157, stdin */
+/* line 18, stdin */
+.k-retour-view .license {
+  position: relative;
+  margin-bottom: 1.5rem; }
+
+/* line 23, stdin */
+.k-retour-view .buy {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: .75rem;
+  padding: .5em 1em;
+  color: #fff;
+  background: #16171a; }
+  /* line 32, stdin */
+  .k-retour-view .buy:hover {
+    background: rgba(22, 23, 26, 0.9); }
+/* line 158, stdin */
 .k-retour-view .k-field-name-from .k-text-input,
 .k-retour-view .k-field-name-to .k-text-input {
   padding-left: 2px; }
+/* line 74, stdin */
+.k-button.retour-redirects {
+  pointer-events: none; }
+  /* line 77, stdin */
+  .k-button.retour-redirects .k-icon {
+    color: #4271ae; }
+
+/* line 82, stdin */
+.k-button.retour-fails {
+  pointer-events: none; }
+  /* line 85, stdin */
+  .k-button.retour-fails .k-icon {
+    color: #aaa; }
