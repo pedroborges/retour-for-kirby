@@ -1,9 +1,14 @@
 
-.gitattributes export-ignore
-.gitignore export-ignore
+# Config files
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.babelrc export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
 
-README.md export-ignore
+# Directories
+/src export-ignore
+/tests export-ignore
 
-.babelrc export-ignore
-package.json export-ignore
-package-lock.json export-ignore
+# Docs
+/README.md export-ignore

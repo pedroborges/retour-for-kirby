@@ -47,7 +47,7 @@
 
 <script>
 
-import getGradients from './../../lib/gradients.js';
+import getGradients from './../../assets/gradients.js';
 import Line from './Line.vue';
 
 export default {

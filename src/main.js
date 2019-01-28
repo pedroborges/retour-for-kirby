@@ -1,5 +1,5 @@
 
-import './lib/icons'
+import './assets/icons'
 
 import Overview from "./components/Overview.vue";
 import StatsField from "./components/Fields/StatsField.vue";

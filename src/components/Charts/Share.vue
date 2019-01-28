@@ -19,7 +19,7 @@
 
 <script>
 
-import getGradients from './../../lib/gradients.js';
+import getGradients from './../../assets/gradients.js';
 import Pie  from './Pie.vue';
 
 export default {

@@ -2,7 +2,7 @@
 
 namespace distantnative;
 
-use Kirby\Data\Yaml;
+use Kirby\Data\Data;
 use Kirby\Toolkit\Dir;
 use Kirby\Toolkit\F;
 
@@ -21,9 +21,16 @@ class Retour
 
     public function load()
     {
-        $file = kirby()->root('site') . '/logs/retour/.tmp';
+        $files = kirby()->root('site') . '/logs/retour/*.tmp';
 
-        if ($tmp  = Yaml::decode(F::read($file))) {
+        $tmp = [];
+
+        foreach(glob($files) as $file) {
+            $tmp[] = Data::read($file, 'yaml');
+            F::remove($file);
+        }
+
+        if (empty($tmp) === false) {
 
             $this->log()->add($tmp);
             $this->stats()->count($tmp);
@@ -34,7 +41,6 @@ class Retour
 
             $this->redirects()->hit($redirects);
 
-            F::remove($file);
         }
     }
 
@@ -76,15 +82,15 @@ class Retour
 
     public function tmp(string $path, bool $isFail, string $pattern = null)
     {
-        $file = kirby()->root('site') . '/logs/retour/.tmp';
+        $file = kirby()->root('site') . '/logs/retour/' . md5($path) . '.' . time() . '.tmp';
 
-        F::append($file, Yaml::encode([[
+        Data::write($file, [
             'path'     => $path,
             'referrer' => $_SERVER['HTTP_REFERER'] ?? null,
             'isFail'   => $isFail,
             'pattern'  => $pattern,
             'date'     => date('Y-m-d H:i')
-        ]]));
+        ], 'yaml');
     }
 
 }

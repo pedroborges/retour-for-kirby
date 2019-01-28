@@ -7,12 +7,12 @@ namespace Composer\Autoload;
 class ComposerStaticInit54d40974c607f2f669afee2d4b83433f
 {
     public static $files = array (
-        'b7622efc5774cfdf841a43d84a9f552b' => __DIR__ . '/../..' . '/src/lib/Store.php',
-        'e49ef35fd30fad2e7fca1c0aed0bb318' => __DIR__ . '/../..' . '/src/models/Retour.php',
-        '7ca171bca901a40cb2512d7ff6e03773' => __DIR__ . '/../..' . '/src/models/Log.php',
-        '744ca852786c39a156874b7f021f5282' => __DIR__ . '/../..' . '/src/models/Redirects.php',
-        'dcda26bd1a689c8e37d2d3cbfb903743' => __DIR__ . '/../..' . '/src/models/Stats.php',
-        '1e251c7a890e72c4bebf5956d08a8ef4' => __DIR__ . '/../..' . '/src/models/System.php',
+        '488166ae67971f7063e47e51664303d3' => __DIR__ . '/../..' . '/lib/Store.php',
+        'd08c3a1211c68b7a261031564658f0f8' => __DIR__ . '/../..' . '/models/Retour.php',
+        'c4b95a130b66bc9d7837d2b0edce03e6' => __DIR__ . '/../..' . '/models/Log.php',
+        '86ff2c99aa27705ef37dbdca48534773' => __DIR__ . '/../..' . '/models/Redirects.php',
+        '55ce5af6ddff1b8a4adee392ff893c2f' => __DIR__ . '/../..' . '/models/Stats.php',
+        '3ce82b535b627fbf2456d3b80f51993e' => __DIR__ . '/../..' . '/models/System.php',
         '258ee43e246a95e6b070f010b8d41e16' => __DIR__ . '/../..' . '/config.php',
     );
 

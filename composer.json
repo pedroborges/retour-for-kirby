@@ -5,12 +5,12 @@
     "version": "1.0.0-beta.1",
     "autoload": {
         "files": [
-          "src/lib/Store.php",
-          "src/models/Retour.php",
-          "src/models/Log.php",
-          "src/models/Redirects.php",
-          "src/models/Stats.php",
-          "src/models/System.php",
+          "lib/Store.php",
+          "models/Retour.php",
+          "models/Log.php",
+          "models/Redirects.php",
+          "models/Stats.php",
+          "models/System.php",
           "config.php"
         ]
     }
