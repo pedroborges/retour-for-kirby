@@ -51,7 +51,7 @@
         <label class="k-field-label">Overview</label>
 
         <k-button-group>
-          <k-button icon="download" @click="samples">
+          <k-button v-if="debug" icon="download" @click="samples">
             Load sample data
           </k-button>
           <k-button icon="trash" theme="negative" @click="flush">
@@ -127,6 +127,11 @@ export default {
       fails: '...',
       redirects: '...',
       latest: '...'
+    }
+  },
+  computed: {
+    debug() {
+      return window.panel.debug;
     }
   },
   mounted() {

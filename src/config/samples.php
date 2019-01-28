@@ -51,6 +51,7 @@ $retour->log()->write($log);
 
 
 $stati = ['redirect', 'fail', 'fail', 'fail'];
+$monthday = [31,28,31,30,31,30,31,31,30,31,30,31];
 
 for ($year=2016; $year <= 2019; $year++) {
 
@@ -63,7 +64,7 @@ for ($year=2016; $year <= 2019; $year++) {
         for ($i=0; $i < 1000; $i++) {
             $by   = array_keys($stats)[array_rand(array_keys($stats))];
             $type = $stati[array_rand($stati)] . 's';
-            $time = mt_rand(strtotime($year . '-'.$month.'-01'), strtotime($year . '-'.$month.'-28'));
+            $time = mt_rand(strtotime($year . '-'.$month.'-01 00:00'), strtotime($year . '-'.$month.'-'.$monthday[$month-1] . ' 23:59'));
             $structure = [
                 'day'   => ['group' => date('Y-m-d', $time), 'key' => date('Y-m-d H:', $time)],
                 'month' => ['group' => date('Y-m', $time),   'key' => date('Y-m-d', $time)]
