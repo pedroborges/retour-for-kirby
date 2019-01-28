@@ -61,15 +61,16 @@ export default {
     return {
       current: null,
       options: {
-        site: null,
+        site   : null,
         license: null,
-        view: null
+        view   : null
       },
       loading: false
     }
   },
   computed: {
     hasLicense() {
+      return true; // TODO: remove later
       return this.options.license.length === 14 &&
              this.options.license.split('-').length === 3;
     },
@@ -95,15 +96,22 @@ export default {
       this.$events.$emit('retour-load');
       this.$api.get('retour/system').then(response => {
         this.options = response;
-        this.current = this.options.view;
 
-        this.$api.get('retour/load').then(response => {
+        this.tmp().then(response => {
+          this.current = this.options.view;
           this.$events.$emit('retour-loaded');
         });
       });
     },
+    tmp() {
+      return this.$api.get('retour/load')
+    },
     go(view) {
-      this.current = view;
+      this.$events.$emit('retour-load');
+      this.tmp().then(response => {
+        this.current = view;
+        this.$events.$emit('retour-loaded');
+      });
     },
     load() {
       this.loading = true;

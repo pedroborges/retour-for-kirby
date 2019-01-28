@@ -12,7 +12,7 @@
             <dt>{{ $t('license') }}</dt>
             <dd>
               <template v-if="this.license">
-                {{ this.options.license }}
+                {{ this.options.license || '–' }}
               </template>
               <p v-else>
                 <strong class="k-system-unregistered">
