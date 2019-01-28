@@ -50,38 +50,46 @@ for ($i=0; $i < 1000; $i++) {
 $retour->log()->write($log);
 
 
-$stats = [
-    'day'   => [],
-    'week'  => [],
-    'month' => [],
-];
-
 $stati = ['redirect', 'fail', 'fail', 'fail'];
 
-for ($i=0; $i < 20000; $i++) {
-    $by   = array_keys($stats)[array_rand(array_keys($stats))];
-    $type = $stati[array_rand($stati)] . 's';
-    $time = mt_rand(strtotime('2014-01-01'), time());
-    $structure = [
-        'day'   => ['group' => date('Y-m-d', $time), 'key' => date('Y-m-d H:', $time)],
-        'week'  => ['group' => date('Y-W', $time),   'key' => date('Y-m-d', $time)],
-        'month' => ['group' => date('Y-m', $time),   'key' => date('Y-m-d', $time)]
-    ];
+for ($year=2016; $year <= 2019; $year++) {
 
-    foreach ($structure as $by => $id) {
-        if (isset($stats[$by][$id['group']]) === false) {
-            $stats[$by][$id['group']] = [];
-        }
+    for ($month=1; $month <= 12; $month++) {
+        $stats = [
+            'day'   => [],
+            'week'  => [],
+            'month' => [],
+        ];
 
-        if (isset($stats[$by][$id['group']][$id['key']]) === false) {
-            $stats[$by][$id['group']][$id['key']] = [
-                'fails'     => 0,
-                'redirects' => 0
+        for ($i=0; $i < 1000; $i++) {
+            $by   = array_keys($stats)[array_rand(array_keys($stats))];
+            $type = $stati[array_rand($stati)] . 's';
+            $time = mt_rand(strtotime($year . '-'.$month.'-01'), strtotime($year . '-'.$month.'-28'));
+            $structure = [
+                'day'   => ['group' => date('Y-m-d', $time), 'key' => date('Y-m-d H:', $time)],
+                'week'  => ['group' => date('Y-W', $time),   'key' => date('Y-m-d', $time)],
+                'month' => ['group' => date('Y-m', $time),   'key' => date('Y-m-d', $time)]
             ];
+
+            foreach ($structure as $by => $id) {
+                if (isset($stats[$by][$id['group']]) === false) {
+                    $stats[$by][$id['group']] = [];
+                }
+
+                if (isset($stats[$by][$id['group']][$id['key']]) === false) {
+                    $stats[$by][$id['group']][$id['key']] = [
+                        'fails'     => 0,
+                        'redirects' => 0
+                    ];
+                }
+
+                $stats[$by][$id['group']][$id['key']][$type]++;
+            }
         }
 
-        $stats[$by][$id['group']][$id['key']][$type]++;
+
+        $retour->stats()->write($stats, $year.'-'.str_pad($month,2,'0',STR_PAD_LEFT));
     }
 }
 
-$retour->stats()->write($stats);
+

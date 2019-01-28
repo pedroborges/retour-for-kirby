@@ -156,7 +156,7 @@ export default {
     },
     flush() {
       this.$events.$emit('retour-load');
-      this.$api.patch('retour/flush').then(() => {
+      this.$api.patch('retour/clear').then(() => {
         this.fetch();
       });
     },

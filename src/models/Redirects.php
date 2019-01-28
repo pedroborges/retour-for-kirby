@@ -22,7 +22,7 @@ class Redirects extends Store
         $this->write($data);
     }
 
-    public function read()
+    public function read(string $suffix = null)
     {
         return $this->data = site()->retour()->yaml();
     }
@@ -50,7 +50,7 @@ class Redirects extends Store
         }, $data);
     }
 
-    public function write(array $data = []): void
+    public function write(array $data = [], string $suffix = null): void
     {
         site()->update(['retour' => $data]);
     }

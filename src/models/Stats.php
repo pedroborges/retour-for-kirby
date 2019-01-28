@@ -7,7 +7,7 @@ class Stats extends Store
 
     public function __construct()
     {
-        $this->file = kirby()->root('content') . '/retour.stats';
+        $this->file = kirby()->root('site') . '/logs/retour/{x}.stats';
     }
 
     protected static function defaults(): array
@@ -21,44 +21,53 @@ class Stats extends Store
 
     public function count(array $tmp): void
     {
-        $data      = $this->data();
+        $stats = [];
 
         foreach ($tmp as $item) {
             $time = strtotime($item['date']);
-            $structure = [
-                'day'   => [
-                    'group' => date('Y-m-d', $time),
-                    'key'   => date('Y-m-d H:', $time)
-                ],
-                'week'  => [
-                    'group' => date('Y-W', $time),
-                     'key'  => date('Y-m-d', $time)
-                ],
-                'month' => [
-                    'group' => date('Y-m', $time),
-                    'key'   => date('Y-m-d', $time)
-                ]
-            ];
-
-            $type = $item['isFail'] ? 'fails' : 'redirects';
-
-            foreach ($structure as $by => $id) {
-                if (isset($data[$by][$id['group']]) === false) {
-                    $data[$by][$id['group']] = [];
-                }
-
-                if (isset($data[$by][$id['group']][$id['key']]) === false) {
-                    $data[$by][$id['group']][$id['key']] = [
-                        'fails'     => 0,
-                        'redirects' => 0
-                    ];
-                }
-
-                $data[$by][$id['group']][$id['key']][$type]++;
-            }
+            $stats[date('Y-m', $time)][] = $item;
         }
 
-        $this->write($data);
+        foreach ($stats as $year => $items) {
+            $data = $this->data($year);
+
+            foreach ($items as $item) {
+                $time = strtotime($item['date']);
+                $structure = [
+                    'day'   => [
+                        'group' => date('Y-m-d', $time),
+                        'key'   => date('Y-m-d H:', $time)
+                    ],
+                    'week'  => [
+                        'group' => date('Y-W', $time),
+                         'key'  => date('Y-m-d', $time)
+                    ],
+                    'month' => [
+                        'group' => date('Y-m', $time),
+                        'key'   => date('Y-m-d', $time)
+                    ]
+                ];
+
+                $type = $item['isFail'] ? 'fails' : 'redirects';
+
+                foreach ($structure as $by => $id) {
+                    if (isset($data[$by][$id['group']]) === false) {
+                        $data[$by][$id['group']] = [];
+                    }
+
+                    if (isset($data[$by][$id['group']][$id['key']]) === false) {
+                        $data[$by][$id['group']][$id['key']] = [
+                            'fails'     => 0,
+                            'redirects' => 0
+                        ];
+                    }
+
+                    $data[$by][$id['group']][$id['key']][$type]++;
+                }
+            }
+
+            $this->write($data, $year);
+        }
     }
 
     public function get(string $by, int $offset = 0): array
@@ -100,9 +109,10 @@ class Stats extends Store
         ];
 
         for ($time = $start; $time <= $end; $time += $step) {
+            $data                  = $this->data(date('Y-m', $time));
             $result['labels'][]    = date($label, $time);
-            $result['fails'][]     = $this->data()[$by][$group][date($key, $time)]['fails'] ?? 0;
-            $result['redirects'][] = $this->data()[$by][$group][date($key, $time)]['redirects'] ?? 0;
+            $result['fails'][]     = $data[$by][$group][date($key, $time)]['fails'] ?? 0;
+            $result['redirects'][] = $data[$by][$group][date($key, $time)]['redirects'] ?? 0;
         }
 
         return $result;

@@ -10,13 +10,21 @@ class Store {
     protected $data;
     protected $file;
 
-    public function data()
+    public function data(string $suffix = null)
     {
         if ($this->data) {
-            return $this->data;
+            if ($suffix && isset($this->data[$suffix])) {
+                return $this->data[$suffix];
+            } else {
+                return $this->data;
+            }
         }
 
-        return $this->read();
+        if ($suffix) {
+            return $this->data[$suffix] = $this->read($suffix);
+        }
+
+        return $this->data = $this->read($suffix);
     }
 
     protected static function defaults(): array
@@ -24,19 +32,26 @@ class Store {
         return [];
     }
 
-    public function read()
+    public function read(string $suffix = null)
     {
-        if (F::exists($this->file) === false) {
-            return $this->data = static::defaults();
+        $file = str_replace('{x}', $suffix, $this->file);
+
+        if (F::exists($file) === false) {
+            return static::defaults();
         }
 
-        return $this->data = Data::read($this->file, 'yaml');
+        return Data::read($file, 'yaml');
     }
 
-    public function write(array $data = []): void
+    public function write(array $data = [], string $suffix = null)
     {
-        Data::write($this->file, $data, 'yaml');
-        $this->data = $data;
+        Data::write(str_replace('{x}', $suffix, $this->file), $data, 'yaml');
+
+        if ($suffix) {
+            return $this->data[$suffix] = $data;
+        }
+
+        return $this->data = $data;
     }
 
 }

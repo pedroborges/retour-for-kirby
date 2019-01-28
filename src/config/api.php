@@ -19,6 +19,14 @@ return [
             }
         ],
         [
+            'pattern' => 'retour/clear',
+            'method'  => 'PATCH',
+            'action'  => function () use ($retour) {
+                $retour->flush();
+                return true;
+            }
+        ],
+        [
             'pattern' => 'retour/redirects',
             'method'  => 'GET',
             'action'  => function () use ($retour) {
@@ -55,13 +63,6 @@ return [
             'method'  => 'GET',
             'action'  => function ($by, $offset = 0) use ($retour) {
                 return $retour->stats()->get($by, $offset);
-            }
-        ],
-        [
-            'pattern' => 'retour/flush',
-            'method'  => 'PATCH',
-            'action'  => function () use ($retour) {
-                return $retour->flush();
             }
         ],
         [

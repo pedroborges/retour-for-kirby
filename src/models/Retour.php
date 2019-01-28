@@ -2,8 +2,9 @@
 
 namespace distantnative;
 
-use Kirby\Toolkit\F;
 use Kirby\Data\Yaml;
+use Kirby\Toolkit\Dir;
+use Kirby\Toolkit\F;
 
 class Retour
 {
@@ -15,13 +16,12 @@ class Retour
 
     public function flush(): void
     {
-        $this->log()->write([]);
-        $this->stats()->write([]);
+        Dir::remove(kirby()->root('site') . '/logs/retour/');
     }
 
     public function load()
     {
-        $file = kirby()->root('content') . '/retour.tmp';
+        $file = kirby()->root('site') . '/logs/retour/.tmp';
 
         if ($tmp  = Yaml::decode(F::read($file))) {
 
@@ -76,7 +76,7 @@ class Retour
 
     public function tmp(string $path, bool $isFail, string $pattern = null)
     {
-        $file = kirby()->root('content') . '/retour.tmp';
+        $file = kirby()->root('site') . '/logs/retour/.tmp';
 
         F::append($file, Yaml::encode([[
             'path'     => $path,
