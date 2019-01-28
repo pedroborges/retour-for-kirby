@@ -38,10 +38,6 @@ class Stats extends Store
                         'group' => date('Y-m-d', $time),
                         'key'   => date('Y-m-d H:', $time)
                     ],
-                    'week'  => [
-                        'group' => date('Y-W', $time),
-                         'key'  => date('Y-m-d', $time)
-                    ],
                     'month' => [
                         'group' => date('Y-m', $time),
                         'key'   => date('Y-m-d', $time)
@@ -77,7 +73,7 @@ class Stats extends Store
                 $step  = 60 * 60;
                 $start = strtotime(date('Y-m-d 00:00') . $offset . ' day');
                 $end   = strtotime(date('Y-m-d 23:59') . $offset . ' day');
-                $group = date('Y-m-d', $start);
+                $group = 'Y-m-d';
                 $key   = 'Y-m-d H:';
                 $label = 'G:00';
                 break;
@@ -85,17 +81,18 @@ class Stats extends Store
             case 'week':
                 $step    = 60 * 60 * 24;
                 $start   = strtotime(date('Y-m-d ', strtotime('Monday this week')) . $offset . ' week');
-                $end     = $start + ($step * 6);
-                $group   = date('Y-W', $start);
+                $end     = strtotime(date('Y-m-d ', strtotime('Sunday this week')) . $offset . ' week');
+                $group   = 'Y-m';
                 $key     = 'Y-m-d';
                 $label   = 'l';
+                $by      = 'month';
                 break;
 
             case 'month':
                 $step    = 60 * 60 * 24;
                 $start   = strtotime(date('Y-m-01 ') . $offset . ' month');
                 $end     = strtotime(date('Y-m-t', $start));
-                $group   = date('Y-m', $start);
+                $group   = 'Y-m';
                 $key     = 'Y-m-d';
                 $label   = 'j';
                 break;
@@ -111,8 +108,8 @@ class Stats extends Store
         for ($time = $start; $time <= $end; $time += $step) {
             $data                  = $this->data(date('Y-m', $time));
             $result['labels'][]    = date($label, $time);
-            $result['fails'][]     = $data[$by][$group][date($key, $time)]['fails'] ?? 0;
-            $result['redirects'][] = $data[$by][$group][date($key, $time)]['redirects'] ?? 0;
+            $result['fails'][]     = $data[$by][date($group, $time)][date($key, $time)]['fails'] ?? 0;
+            $result['redirects'][] = $data[$by][date($group, $time)][date($key, $time)]['redirects'] ?? 0;
         }
 
         return $result;

@@ -13,8 +13,10 @@ class Store {
     public function data(string $suffix = null)
     {
         if ($this->data) {
-            if ($suffix && isset($this->data[$suffix])) {
-                return $this->data[$suffix];
+            if ($suffix) {
+                if (isset($this->data[$suffix])) {
+                    return $this->data[$suffix];
+                }
             } else {
                 return $this->data;
             }

@@ -39,7 +39,6 @@
       <footer class="k-field-footer">
         <div data-theme="help" class="k-text k-field-help">
           <span v-if="!license">Buy a <a href="https://pay.paddle.com/checkout/550719">plugin license</a>.</span>
-          Get a <a href="">Kirby license</a>.
           Download <a href="https://github.com/distantnative/kirby-retour/archive/master.zip">latest version</a>.
         </div>
       </footer>
@@ -70,7 +69,7 @@
         </li>
         <li>
           <dl>
-            <dt>Logged fails</dt>
+            <dt>Logged {{ $t('retour.fails') }}</dt>
             <dd>{{ this.fails }}</dd>
           </dl>
         </li>
@@ -84,6 +83,14 @@
       <ul class="k-system-info-box">
         <li>
           <dl>
+            <dt>Keep log for</dt>
+            <dd>
+              6 months
+            </dd>
+          </dl>
+        </li>
+        <li>
+          <dl>
             <dt>Default view</dt>
             <dd>
               dashboard
@@ -92,12 +99,8 @@
         </li>
         <li>
           <dl>
-            <dt># items per page</dt>
+            <dt>List # items per page</dt>
             <dd>{{ this.options.limit }}</dd>
-          </dl>
-        </li>
-        <li>
-          <dl>
           </dl>
         </li>
       </ul>

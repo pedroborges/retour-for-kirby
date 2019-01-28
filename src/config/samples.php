@@ -57,7 +57,6 @@ for ($year=2016; $year <= 2019; $year++) {
     for ($month=1; $month <= 12; $month++) {
         $stats = [
             'day'   => [],
-            'week'  => [],
             'month' => [],
         ];
 
@@ -67,7 +66,6 @@ for ($year=2016; $year <= 2019; $year++) {
             $time = mt_rand(strtotime($year . '-'.$month.'-01'), strtotime($year . '-'.$month.'-28'));
             $structure = [
                 'day'   => ['group' => date('Y-m-d', $time), 'key' => date('Y-m-d H:', $time)],
-                'week'  => ['group' => date('Y-W', $time),   'key' => date('Y-m-d', $time)],
                 'month' => ['group' => date('Y-m', $time),   'key' => date('Y-m-d', $time)]
             ];
 
