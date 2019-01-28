@@ -53,8 +53,9 @@ export default {
               response.redirects.reduce((sum, x) => sum + x),
               response.fails.reduce((sum, x) => sum + x)
             ],
-            backgroundColor: [gradients.redirects, gradients.fails],
-            hoverBackgroundColor: ['#4271ae', '#ccc']
+            backgroundColor: [gradients.blue, gradients.grey],
+            hoverBackgroundColor: ['#4271ae', '#ccc'],
+            borderWidth: [1, 1]
           }
         ],
       }

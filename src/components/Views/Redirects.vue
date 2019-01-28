@@ -9,7 +9,7 @@
     :help="$t('retour.redirects.help') + ' ' + $t('retour.recency.help')"
     :label="$t('retour.redirects')"
     :sortable="false"
-    :value="values"
+    :value="redirects"
     :limit="10"
     sortBy="status asc from asc"
     @input="update"
@@ -20,7 +20,7 @@
 <script>
 export default {
   props: {
-    site: String
+    options: Object
   },
   data() {
     return {
@@ -40,7 +40,7 @@ export default {
         from: {
           label: this.$t('retour.redirects.from'),
           type: "text",
-          before: this.site + "/",
+          before: this.options.site + "/",
           required: true
         },
         to: {
@@ -106,16 +106,6 @@ export default {
           type: "retour-hits"
         }
       }
-    },
-    values() {
-      return this.redirects.map(item => {
-        return Object.assign(item, {
-          stats: {
-            hits: item.hits,
-            last: item.last
-          }
-        });
-      });
     }
   },
   created() {

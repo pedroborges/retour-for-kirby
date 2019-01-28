@@ -92,14 +92,14 @@ export default {
         labels: response.labels,
         datasets: [
           {
-            backgroundColor: gradients.redirects,
+            backgroundColor: gradients.blue,
             borderColor: 'rgba(66, 113, 174, .75)',
             borderWidth: 1,
             pointRadius: 0,
             data: response.redirects,
           },
           {
-            backgroundColor: gradients.fails,
+            backgroundColor: gradients.grey,
             borderColor: '#ccc',
             borderWidth: 1,
             pointRadius: 0,

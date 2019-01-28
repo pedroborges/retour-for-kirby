@@ -23,7 +23,7 @@
       </k-button-group>
     </k-header>
 
-    <license v-if="this.options.license && !hasLicense" />
+    <license v-if="this.options.license && !hasLicense" @go="go" />
 
     <template v-for="view in views">
       <component
@@ -31,7 +31,8 @@
         :key="view"
         :ref="view"
         :is="view"
-        :site="options.site"
+        :options="options"
+        :license="hasLicense"
         @add="add"
       />
     </template>
@@ -88,9 +89,7 @@ export default {
   methods: {
     add(error) {
       this.current = 'redirects';
-      this.$nextTick(() => {
-        this.$refs.redirects.add(error);
-      });
+
     },
     fetch() {
       this.$events.$emit('retour-load');
@@ -101,8 +100,8 @@ export default {
       });
     },
     go(view) {
+      console.log(111)
       this.current = view;
-      this.$events.$emit('retour-go', view);
     },
     load() {
       this.loading = true;

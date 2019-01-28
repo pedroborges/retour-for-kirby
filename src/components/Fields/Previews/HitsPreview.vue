@@ -30,7 +30,7 @@ export default {
         let date   = dayjs(this.value.last);
         let today  = dayjs();
         let days   = today.diff(date, 'day');
-        let factor = 1 - (days/14);
+        let factor = 1 - (days/30);
         return factor > 0 ? factor : 0;
       }
 
@@ -66,7 +66,7 @@ export default {
 
     .back {
       position: absolute;
-      color: #efefef;
+      color: rgba(0,0,0,.1);
     }
 
     > div {

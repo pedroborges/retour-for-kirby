@@ -6,10 +6,15 @@ class System {
 
     public function toArray(): array
     {
+        $kirby  = kirby();
+        $plugin = $kirby->plugin('distantnative/retour');
+
         return [
-            'site'    => site()->url(),
-            'view'    => option('distantnative.retour.view', 'dashboard'),
-            'license' => option('distantnative.retour.license')
+            'description' => $plugin->description(),
+            'version'     => $plugin->version(),
+            'site'        => $kirby->site()->url(),
+            'view'        => option('distantnative.retour.view', 'dashboard'),
+            'license'     => option('distantnative.retour.license')
         ];
     }
 

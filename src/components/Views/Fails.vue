@@ -36,20 +36,20 @@
           <td class="k-structure-table-index">
             <span class="k-structure-table-index-number">{{ index + 1 }}</span>
           </td>
-          <td>
+          <td class="k-structure-table-column" data-width="">
             <k-url-field-preview :value="item.path" />
           </td>
-          <td>
+          <td class="k-structure-table-column" data-width="">
             <k-url-field-preview :value="item.referrer" />
           </td>
-          <td>
+          <td class="k-structure-table-column" data-width="">
             <k-retour-hits-field-preview :value="{
               hits: `${item.fails + item.redirects} (${item.redirects})`,
               last: item.last
             }" />
           </td>
           <td class="k-structure-table-option">
-            <k-button :tooltip="$t('add')" icon="add" @click="add(item)" />
+            <k-button :tooltip="$t('add')" icon="add" @click="$emit('add', item)" />
           </td>
         </tr>
       </tbody>
@@ -92,9 +92,6 @@ export default {
     this.fetch();
   },
   methods: {
-    add(error) {
-      this.$emit('add', error);
-    },
     fetch() {
       this.$events.$emit('retour-load');
       this.$api.get('retour/fails/' + this.sort).then(response => {
