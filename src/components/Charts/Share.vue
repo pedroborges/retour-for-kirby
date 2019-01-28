@@ -3,10 +3,10 @@
     <header class="k-field-header">
       <k-button-group>
         <k-button icon="circle" class="retour-redirects">
-          {{ $t('retour.redirects') }}
+          {{ redirects }} {{ $t('retour.redirects') }}
         </k-button>
         <k-button icon="circle" class="retour-fails">
-          {{ $t('retour.fails') }}
+          {{ fails }} {{ $t('retour.fails') }}
         </k-button>
       </k-button-group>
     </header>
@@ -31,33 +31,39 @@ export default {
   },
   data () {
     return {
-      data: null
+      data: null,
+      redirects: '–',
+      fails: '-'
     }
   },
   computed: {
     options() {
       return {
         legend: false,
+        rotation: 1 * Math.PI,
+        circumference: Math.PI
       };
     }
   },
   watch: {
     response(response) {
-      let gradients = getGradients(document, 'pie-chart');
+      let gradients  = getGradients(document, 'pie-chart');
+      this.redirects = response.redirects.reduce((sum, x) => sum + x);
+      this.fails     = response.fails.reduce((sum, x) => sum + x);
 
       this.data = {
         labels: [this.$t('retour.redirects'), this.$t('retour.fails')],
         datasets: [
           {
             data: [
-              response.redirects.reduce((sum, x) => sum + x),
-              response.fails.reduce((sum, x) => sum + x)
+              this.redirects,
+              this.fails
             ],
             backgroundColor: [gradients.blue, gradients.grey],
             hoverBackgroundColor: ['#4271ae', '#ccc'],
             borderWidth: [1, 1]
           }
-        ],
+        ]
       }
     }
   }

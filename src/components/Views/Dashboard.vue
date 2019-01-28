@@ -16,6 +16,21 @@
       />
     </k-column>
 
+    <k-column width="1/1">
+      <footer class="k-field-footer">
+        <div data-theme="help" class="k-text k-field-help">
+        <p>
+          <b>{{ $t('retour.redirects') }}</b><br>
+          {{ $t('retour.redirects.description') }}
+        </p>
+        <p>
+          <b>{{ $t('retour.fails') }}</b><br>
+          {{ $t('retour.fails.description') }}
+        </p>
+        </div>
+      </footer>
+    </k-column>
+
   </k-grid>
 </template>
 

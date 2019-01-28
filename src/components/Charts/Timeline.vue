@@ -61,7 +61,7 @@ export default {
   },
   data () {
     return {
-      headline: null,
+      headline: '...',
       data: null
     }
   },

@@ -21,7 +21,7 @@ return [
         'retour.redirects.hits'     => 'Hits',
         'retour.redirects.hit.last' => 'Last',
 
-        'retour.fails' => '404\'s',
+        'retour.fails' => 'Fails',
 
         'retour.settings' => 'Settings',
 
